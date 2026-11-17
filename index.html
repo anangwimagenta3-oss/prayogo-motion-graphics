@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRAYOGO - Meat Motion Graphics</title>
+<title>PRAYOGO | Digital Meat</title>
 
 <style>
 * {
@@ -14,77 +14,90 @@
 }
 
 body {
-  background: #050608;
+  background: #030405;
   color: white;
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
 
-.video {
+#screen {
   width: 100vw;
   height: 100dvh;
   max-width: 480px;
   margin: auto;
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at center, #351014 0%, #10090c 45%, #030405 100%);
+  background: #08090d;
+}
+
+#productVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+
+#screen.show-video #productVideo {
+  opacity: .88;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,.78),
+    transparent 35%,
+    rgba(0,0,0,.15) 55%,
+    rgba(0,0,0,.88)
+  );
 }
 
 .grid {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background-image:
-    linear-gradient(#ffffff0b 1px, transparent 1px),
-    linear-gradient(90deg, #ffffff0b 1px, transparent 1px);
+    linear-gradient(#ff344b12 1px, transparent 1px),
+    linear-gradient(90deg,#ff344b12 1px, transparent 1px);
   background-size: 35px 35px;
-  transform: perspective(400px) rotateX(12deg) scale(1.4);
-  animation: moveGrid 8s linear infinite;
+  opacity: .5;
 }
 
-@keyframes moveGrid {
-  from { background-position: 0 0; }
-  to { background-position: 0 70px; }
+.frame {
+  position: absolute;
+  inset: 22px;
+  border: 1px solid #ff344b66;
+  pointer-events: none;
 }
 
 .scan {
   position: absolute;
+  top: -5px;
+  left: 0;
   width: 100%;
   height: 3px;
-  background: #ff293d;
-  box-shadow: 0 0 20px #ff293d;
-  top: -5px;
-  animation: scanning 4s linear infinite;
+  background: #ff344b;
+  box-shadow: 0 0 18px #ff344b;
+  animation: scan 4s linear infinite;
+  pointer-events: none;
 }
 
-@keyframes scanning {
+@keyframes scan {
   to { top: 100%; }
 }
 
-.line {
+.header {
   position: absolute;
-  width: 75%;
-  height: 1px;
-  background: #ff3048;
-  left: 12.5%;
-  top: 25%;
-  box-shadow: 0 0 12px red;
-}
-
-.corner {
-  position: absolute;
-  inset: 25px;
-  border: 1px solid #ff334433;
-}
-
-.logo {
-  position: absolute;
-  top: 8%;
+  top: 7%;
   width: 100%;
   text-align: center;
-  letter-spacing: 7px;
-  color: #ff5364;
-  font-size: 14px;
+  font-size: 13px;
+  letter-spacing: 6px;
+  color: #ff6675;
   font-weight: bold;
 }
 
@@ -97,80 +110,85 @@ body {
   align-items: center;
   text-align: center;
   padding: 30px;
+  transition: opacity .4s, transform .4s;
 }
 
-.tag {
-  color: #ff5364;
+.content.hidden {
+  opacity: 0;
+  transform: scale(1.06);
+}
+
+.small {
+  color: #ff5368;
   font-size: 11px;
   letter-spacing: 5px;
   margin-bottom: 20px;
 }
 
 h1 {
-  font-size: clamp(30px, 9vw, 48px);
+  font-size: clamp(34px, 10vw, 48px);
   line-height: 1.1;
   letter-spacing: 2px;
-  text-shadow: 0 0 20px #ff243c77;
 }
 
-h1 span {
-  color: #ff3048;
+h1 span, h2 span {
+  color: #ff4058;
 }
 
-.sub {
-  font-size: 13px;
-  color: #c8c8c8;
-  letter-spacing: 2px;
-  margin-top: 22px;
+h2 {
+  font-size: clamp(29px, 8vw, 40px);
+  line-height: 1.15;
+  text-shadow: 0 0 20px #000;
 }
 
-.bar {
-  width: 0;
-  height: 3px;
-  background: #ff3048;
-  margin-top: 30px;
-  box-shadow: 0 0 15px red;
-  animation: loading 3s ease forwards;
-}
-
-@keyframes loading {
-  to { width: 180px; }
-}
-
-.scene {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  text-align: center;
-  opacity: 0;
-  transform: scale(.92);
-  transition: opacity .7s, transform .7s;
-  pointer-events: none;
-}
-
-.scene.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.scene h2 {
-  font-size: 35px;
-  line-height: 1.2;
-  letter-spacing: 1px;
-}
-
-.scene h2 span {
-  color: #ff344d;
-}
-
-.scene p {
+.description {
   margin-top: 18px;
-  font-size: 13px;
-  color: #ccc;
-  letter-spacing: 2px;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #ddd;
+}
+
+.line {
+  width: 150px;
+  height: 3px;
+  margin-top: 25px;
+  background: #ff344b;
+  box-shadow: 0 0 15px #ff344b;
+}
+
+.product-info {
+  position: absolute;
+  bottom: 17%;
+  left: 9%;
+  right: 9%;
+  border-left: 3px solid #ff344b;
+  padding: 12px 16px;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(8px);
+  transition: opacity .3s, transform .3s;
+}
+
+.product-info.hidden {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.product-info .number {
+  color: #ff5368;
+  font-size: 10px;
+  letter-spacing: 4px;
+  margin-bottom: 9px;
+}
+
+.product-info h2 {
+  font-size: 28px;
+}
+
+.product-info p {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #ddd;
+  margin-top: 8px;
 }
 
 .footer {
@@ -178,9 +196,45 @@ h1 span {
   bottom: 5%;
   width: 100%;
   text-align: center;
-  font-size: 10px;
-  color: #888;
+  color: #aaa;
+  font-size: 11px;
   letter-spacing: 4px;
+}
+
+.progress {
+  position: absolute;
+  bottom: 11%;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: #ffffff30;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #ff344b;
+  box-shadow: 0 0 10px red;
+}
+
+.replay {
+  position: absolute;
+  z-index: 10;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 13px 22px;
+  border: 1px solid #ff4058;
+  color: white;
+  background: #19080c;
+  letter-spacing: 2px;
+  font-size: 11px;
+  display: none;
+  border-radius: 3px;
+}
+
+.replay.visible {
+  display: block;
 }
 
 </style>
@@ -188,100 +242,206 @@ h1 span {
 
 <body>
 
-<div class="video">
+<div id="screen">
 
+  <video id="productVideo"
+    muted
+    playsinline
+    preload="auto">
+  </video>
+
+  <div class="overlay"></div>
   <div class="grid"></div>
+  <div class="frame"></div>
   <div class="scan"></div>
-  <div class="corner"></div>
-  <div class="line"></div>
 
-  <div class="logo">PRAYOGO DIGITAL MEAT</div>
+  <div class="header">PRAYOGO DIGITAL MEAT</div>
 
-  <div class="content scene active" id="s1">
+  <div class="content" id="intro">
     <div>
-      <div class="tag">SYSTEM INITIALIZING</div>
+      <div class="small">SYSTEM INITIALIZING</div>
       <h1>THE ART OF<br><span>QUALITY MEAT</span></h1>
-      <div class="sub">PREMIUM FRESH BEEF</div>
-      <div class="bar"></div>
+      <div class="description">PREMIUM FRESH BEEF</div>
+      <div class="line"></div>
     </div>
   </div>
 
-  <div class="scene" id="s2">
+  <div class="product-info hidden" id="info">
+    <div class="number" id="number">01 / PRODUCT SCAN</div>
+    <h2 id="name">URAT <span>SAPI</span></h2>
+    <p id="desc">FRESH BEEF COLLECTION</p>
+  </div>
+
+  <div class="content hidden" id="outro">
     <div>
-      <div class="tag">01 / PRODUCT SCAN</div>
-      <h2>KENALI<br><span>KUALITAS DAGING</span></h2>
-      <p>FRESH BEEF SELECTION</p>
+      <div class="small">YOUR MEAT YOUR CHOICE</div>
+      <h1>PRAYOGO<br><span>FRESH BEEF</span></h1>
+      <div class="description">PILIHAN DAGING UNTUK MASAKANMU</div>
+      <div class="line"></div>
     </div>
   </div>
 
-  <div class="scene" id="s3">
-    <div>
-      <div class="tag">02 / PRODUCT COLLECTION</div>
-      <h2>PILIHAN<br><span>POTONGAN DAGING</span></h2>
-      <p>SESUAI KEBUTUHAN MASAKMU</p>
-    </div>
+  <div class="progress">
+    <div class="progress-bar" id="bar"></div>
   </div>
 
-  <div class="scene" id="s4">
-    <div>
-      <div class="tag">03 / PRECISION</div>
-      <h2>DITIMBANG<br><span>DENGAN TELITI</span></h2>
-      <p>YOUR MEAT, YOUR CHOICE</p>
-    </div>
-  </div>
+  <div class="footer" id="timer">00:00 / 00:30</div>
 
-  <div class="scene" id="s5">
-    <div>
-      <div class="tag">PRAYOGO FRESH BEEF</div>
-      <h2>SAATNYA<br><span>MEMILIH YANG TEPAT</span></h2>
-      <p>PRAYOGO - FRESH BEEF</p>
-    </div>
-  </div>
-
-  <div class="footer" id="timer">
-    00:00 / 00:30
-  </div>
+  <button class="replay" id="replay">PUTAR ULANG</button>
 
 </div>
 
 <script>
 const scenes = [
-  {id:"s1", start:0},
-  {id:"s2", start:5},
-  {id:"s3", start:12},
-  {id:"s4", start:20},
-  {id:"s5", start:25}
+  {
+    file: "01_URAT_SAPI.mp4",
+    name: "URAT SAPI",
+    desc: "FRESH BEEF COLLECTION"
+  },
+  {
+    file: "02_TULANG_SUMSUM.mp4",
+    name: "TULANG SUMSUM",
+    desc: "BEEF SELECTION"
+  },
+  {
+    file: "03_IGA_SAPI.mp4",
+    name: "IGA SAPI",
+    desc: "FRESH BEEF COLLECTION"
+  },
+  {
+    file: "04_HAS_DALAM.mp4",
+    name: "HAS DALAM",
+    desc: "BEEF SELECTION"
+  },
+  {
+    file: "05_PIPI_SAPI.mp4",
+    name: "PIPI SAPI",
+    desc: "FRESH BEEF COLLECTION"
+  },
+  {
+    file: "06_LIDAH_SAPI.mp4",
+    name: "LIDAH SAPI",
+    desc: "BEEF SELECTION"
+  },
+  {
+    file: "07_SANDUNG_LAMUR.mp4",
+    name: "SANDUNG LAMUR",
+    desc: "FRESH BEEF COLLECTION"
+  },
+  {
+    file: "08_TETELAN.mp4",
+    name: "TETELAN",
+    desc: "BEEF SELECTION"
+  }
 ];
 
-let start = Date.now();
+const screen = document.getElementById("screen");
+const video = document.getElementById("productVideo");
+const intro = document.getElementById("intro");
+const outro = document.getElementById("outro");
+const info = document.getElementById("info");
+const timer = document.getElementById("timer");
+const bar = document.getElementById("bar");
+const replay = document.getElementById("replay");
 
-function animate() {
-  let elapsed = ((Date.now() - start) / 1000) % 30;
+let started = false;
+let startTime = 0;
+let timerFrame;
 
-  scenes.forEach(scene => {
-    let duration = scenes.find(
-      s => s.start > scene.start
-    )?.start ?? 30;
-
-    let active =
-      elapsed >= scene.start &&
-      elapsed < duration;
-
-    document.getElementById(scene.id)
-      .classList.toggle("active", active);
-  });
-
-  let seconds = Math.floor(elapsed);
-  let mm = String(Math.floor(seconds / 60)).padStart(2,"0");
-  let ss = String(seconds % 60).padStart(2,"0");
-
-  document.getElementById("timer").textContent =
-    mm + ":" + ss + " / 00:30";
-
-  requestAnimationFrame(animate);
+function showIntro() {
+  screen.classList.remove("show-video");
+  intro.classList.remove("hidden");
+  outro.classList.add("hidden");
+  info.classList.add("hidden");
 }
 
-animate();
+function showProduct(index) {
+  const item = scenes[index];
+
+  intro.classList.add("hidden");
+  outro.classList.add("hidden");
+  info.classList.remove("hidden");
+  screen.classList.add("show-video");
+
+  document.getElementById("number").textContent =
+    String(index + 1).padStart(2,"0") + " / PRODUCT SCAN";
+
+  const parts = item.name.split(" ");
+  const first = parts.slice(0,-1).join(" ");
+  const last = parts.slice(-1).join("");
+
+  document.getElementById("name").innerHTML =
+    (first ? first + " " : "") + "<span>" + last + "</span>";
+
+  document.getElementById("desc").textContent = item.desc;
+
+  video.pause();
+  video.src = encodeURI(item.file);
+  video.load();
+
+  video.oncanplay = () => {
+    if (started) video.play().catch(() => {});
+  };
+}
+
+function showOutro() {
+  screen.classList.remove("show-video");
+  intro.classList.add("hidden");
+  info.classList.add("hidden");
+  outro.classList.remove("hidden");
+  video.pause();
+}
+
+function updateClock() {
+  if (!started) return;
+
+  const elapsed = Math.min((Date.now() - startTime) / 1000, 30);
+  const seconds = Math.floor(elapsed);
+  const mm = String(Math.floor(seconds / 60)).padStart(2,"0");
+  const ss = String(seconds % 60).padStart(2,"0");
+
+  timer.textContent = mm + ":" + ss + " / 00:30";
+  bar.style.width = (elapsed / 30 * 100) + "%";
+
+  if (elapsed < 3) {
+    showIntro();
+  } else if (elapsed < 27) {
+    const index = Math.min(
+      Math.floor((elapsed - 3) / 3), 7
+    );
+
+    const currentScene = index;
+    if (window.lastScene !== currentScene) {
+      window.lastScene = currentScene;
+      showProduct(currentScene);
+    }
+  } else {
+    showOutro();
+  }
+
+  if (elapsed >= 30) {
+    started = false;
+    cancelAnimationFrame(timerFrame);
+    timer.textContent = "00:30 / 00:30";
+    replay.classList.add("visible");
+    return;
+  }
+
+  timerFrame = requestAnimationFrame(updateClock);
+}
+
+function playAd() {
+  cancelAnimationFrame(timerFrame);
+  started = true;
+  startTime = Date.now();
+  window.lastScene = -1;
+  replay.classList.remove("visible");
+  updateClock();
+}
+
+replay.addEventListener("click", playAd);
+
+playAd();
 </script>
 
 </body>
