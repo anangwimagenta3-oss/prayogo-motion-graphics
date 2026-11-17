@@ -86,6 +86,28 @@ body {
   pointer-events: none;
 }
 
+/* HOLOGRAM DIGITAL EFFECT */
+#screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      rgba(255, 40, 80, 0.10) 4px
+    );
+  animation: hologramFlicker 0.15s infinite;
+}
+
+@keyframes hologramFlicker {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.75; }
+}
+  
 @keyframes scan {
   to { top: 100%; }
 }
@@ -237,6 +259,137 @@ h2 {
   display: block;
 }
 
+/* HOLOGRAM SCANNER PRAYOGO */
+
+.holo {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .5s;
+  overflow: hidden;
+}
+
+#screen.show-video .holo {
+  opacity: 1;
+}
+
+.holo-ring {
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  border: 1px solid #ff405866;
+  border-radius: 50%;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 18px #ff304522,
+              inset 0 0 18px #ff304522;
+  animation: holoRotate 12s linear infinite;
+}
+
+.holo-ring::before,
+.holo-ring::after {
+  content: "";
+  position: absolute;
+  inset: 13px;
+  border: 1px dashed #ff536888;
+  border-radius: 50%;
+}
+
+.holo-ring::after {
+  inset: 35px;
+  border-style: solid;
+  border-color: #ff536855;
+}
+
+@keyframes holoRotate {
+  to {
+    transform: translate(-50%,-50%) rotate(360deg);
+  }
+}
+
+.holo-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ff4058;
+  box-shadow: 0 0 12px 3px #ff304566;
+  animation: holoBeam 3s linear infinite;
+}
+
+@keyframes holoBeam {
+  from { top: 20%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  to { top: 80%; opacity: 0; }
+}
+
+.holo-corner {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-color: #ff526f;
+  border-style: solid;
+  opacity: .9;
+}
+
+.holo-tl {
+  top: 25%;
+  left: 8%;
+  border-width: 2px 0 0 2px;
+}
+
+.holo-tr {
+  top: 25%;
+  right: 8%;
+  border-width: 2px 2px 0 0;
+}
+
+.holo-bl {
+  bottom: 27%;
+  left: 8%;
+  border-width: 0 0 2px 2px;
+}
+
+.holo-br {
+  bottom: 27%;
+  right: 8%;
+  border-width: 0 2px 2px 0;
+}
+
+.holo-label {
+  position: absolute;
+  top: 28%;
+  right: 9%;
+  color: #ff8190;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px red;
+}
+
+.holo-dot {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff526f;
+  box-shadow: 0 0 15px 5px #ff304566;
+  animation: holoPulse 1.2s infinite alternate;
+}
+
+@keyframes holoPulse {
+  to {
+    opacity: .3;
+    transform: scale(1.8);
+  }
+    }
+  
 </style>
 </head>
 
