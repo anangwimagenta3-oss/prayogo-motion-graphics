@@ -145,6 +145,44 @@ replay.style.display="none";
 startShow();
 </script>
 </body>
+</html>ch(()=>{});
+}
+function finish(){
+ clearInterval(timerId);video.pause();panel.classList.remove("show");layer.classList.remove("active");
+ headline.style.opacity="1";headline.style.transform="scale(1)";
+ sceneLabel.classList.remove("show");phase.textContent="SCAN COMPLETE";replay.classList.add("show");
+ timer.textContent="00:30 / 00:30";meter.style.width="100%";
+}
+function tick(){
+ const elapsed=(Date.now()-startAt)/1000;
+ if(elapsed>=30){finish();return;}
+ timer.textContent=fmt(elapsed);meter.style.width=(elapsed/30*100)+"%";
+ if(elapsed<2){
+   step=-1;headline.style.opacity="1";panel.classList.remove("show");layer.classList.remove("active");
+   phase.textContent="SYSTEM INITIALIZING";
+ }else if(elapsed<26){
+   const i=Math.min(7,Math.floor((elapsed-2)/3));
+   if(i!==step)showProduct(i);
+ }else{
+   video.pause();layer.classList.remove("active");panel.classList.remove("show");
+   headline.style.opacity="1";headline.style.transform="scale(1)";
+   headline.querySelector(".eyebrow").textContent="TERIMA KASIH TELAH MEMILIH";
+   headline.querySelector("h1").innerHTML="PRAYOGO<br><span>FRESH BEEF</span>";
+   headline.querySelector(".subhead").textContent="PILIHAN DAGING UNTUK KELUARGA";
+   sceneLabel.classList.remove("show");phase.textContent="QUALITY YOU CAN TRUST";
+ }
+}
+function startShow(){
+ replay.classList.remove("show");replay.style.display="none";
+ headline.querySelector(".eyebrow").textContent="PILIHAN DAGING BERKUALITAS";
+ headline.querySelector("h1").innerHTML="MAU MASAK<br><span>DAGING APA?</span>";
+ headline.querySelector(".subhead").textContent="TEMUKAN POTONGAN FAVORITMU";
+ step=-1;startAt=Date.now();clearInterval(timerId);tick();timerId=setInterval(tick,100);
+}
+replay.style.display="none";
+startShow();
+</script>
+</body>
 </html>ssList.add("hidden");
   info.classList.add("hidden");
   outro.classList.remove("hidden");
