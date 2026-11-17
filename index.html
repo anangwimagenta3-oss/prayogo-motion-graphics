@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRAYOGO - Meat Motion Graphics</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #050608;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.video {
+  width: 100vw;
+  height: 100dvh;
+  max-width: 480px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #351014 0%, #10090c 45%, #030405 100%);
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#ffffff0b 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff0b 1px, transparent 1px);
+  background-size: 35px 35px;
+  transform: perspective(400px) rotateX(12deg) scale(1.4);
+  animation: moveGrid 8s linear infinite;
+}
+
+@keyframes moveGrid {
+  from { background-position: 0 0; }
+  to { background-position: 0 70px; }
+}
+
+.scan {
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: #ff293d;
+  box-shadow: 0 0 20px #ff293d;
+  top: -5px;
+  animation: scanning 4s linear infinite;
+}
+
+@keyframes scanning {
+  to { top: 100%; }
+}
+
+.line {
+  position: absolute;
+  width: 75%;
+  height: 1px;
+  background: #ff3048;
+  left: 12.5%;
+  top: 25%;
+  box-shadow: 0 0 12px red;
+}
+
+.corner {
+  position: absolute;
+  inset: 25px;
+  border: 1px solid #ff334433;
+}
+
+.logo {
+  position: absolute;
+  top: 8%;
+  width: 100%;
+  text-align: center;
+  letter-spacing: 7px;
+  color: #ff5364;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+}
+
+.tag {
+  color: #ff5364;
+  font-size: 11px;
+  letter-spacing: 5px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: clamp(30px, 9vw, 48px);
+  line-height: 1.1;
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px #ff243c77;
+}
+
+h1 span {
+  color: #ff3048;
+}
+
+.sub {
+  font-size: 13px;
+  color: #c8c8c8;
+  letter-spacing: 2px;
+  margin-top: 22px;
+}
+
+.bar {
+  width: 0;
+  height: 3px;
+  background: #ff3048;
+  margin-top: 30px;
+  box-shadow: 0 0 15px red;
+  animation: loading 3s ease forwards;
+}
+
+@keyframes loading {
+  to { width: 180px; }
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+  opacity: 0;
+  transform: scale(.92);
+  transition: opacity .7s, transform .7s;
+  pointer-events: none;
+}
+
+.scene.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scene h2 {
+  font-size: 35px;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.scene h2 span {
+  color: #ff344d;
+}
+
+.scene p {
+  margin-top: 18px;
+  font-size: 13px;
+  color: #ccc;
+  letter-spacing: 2px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: #888;
+  letter-spacing: 4px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="video">
+
+  <div class="grid"></div>
+  <div class="scan"></div>
+  <div class="corner"></div>
+  <div class="line"></div>
+
+  <div class="logo">PRAYOGO DIGITAL MEAT</div>
+
+  <div class="content scene active" id="s1">
+    <div>
+      <div class="tag">SYSTEM INITIALIZING</div>
+      <h1>THE ART OF<br><span>QUALITY MEAT</span></h1>
+      <div class="sub">PREMIUM FRESH BEEF</div>
+      <div class="bar"></div>
+    </div>
+  </div>
+
+  <div class="scene" id="s2">
+    <div>
+      <div class="tag">01 / PRODUCT SCAN</div>
+      <h2>KENALI<br><span>KUALITAS DAGING</span></h2>
+      <p>FRESH BEEF SELECTION</p>
+    </div>
+  </div>
+
+  <div class="scene" id="s3">
+    <div>
+      <div class="tag">02 / PRODUCT COLLECTION</div>
+      <h2>PILIHAN<br><span>POTONGAN DAGING</span></h2>
+      <p>SESUAI KEBUTUHAN MASAKMU</p>
+    </div>
+  </div>
+
+  <div class="scene" id="s4">
+    <div>
+      <div class="tag">03 / PRECISION</div>
+      <h2>DITIMBANG<br><span>DENGAN TELITI</span></h2>
+      <p>YOUR MEAT, YOUR CHOICE</p>
+    </div>
+  </div>
+
+  <div class="scene" id="s5">
+    <div>
+      <div class="tag">PRAYOGO FRESH BEEF</div>
+      <h2>SAATNYA<br><span>MEMILIH YANG TEPAT</span></h2>
+      <p>PRAYOGO - FRESH BEEF</p>
+    </div>
+  </div>
+
+  <div class="footer" id="timer">
+    00:00 / 00:30
+  </div>
+
+</div>
+
+<script>
+const scenes = [
+  {id:"s1", start:0},
+  {id:"s2", start:5},
+  {id:"s3", start:12},
+  {id:"s4", start:20},
+  {id:"s5", start:25}
+];
+
+let start = Date.now();
+
+function animate() {
+  let elapsed = ((Date.now() - start) / 1000) % 30;
+
+  scenes.forEach(scene => {
+    let duration = scenes.find(
+      s => s.start > scene.start
+    )?.start ?? 30;
+
+    let active =
+      elapsed >= scene.start &&
+      elapsed < duration;
+
+    document.getElementById(scene.id)
+      .classList.toggle("active", active);
+  });
+
+  let seconds = Math.floor(elapsed);
+  let mm = String(Math.floor(seconds / 60)).padStart(2,"0");
+  let ss = String(seconds % 60).padStart(2,"0");
+
+  document.getElementById("timer").textContent =
+    mm + ":" + ss + " / 00:30";
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
