@@ -1,558 +1,151 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRAYOGO | Digital Meat</title>
-
+<title>PRAYOGO | Fresh Beef Motion</title>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: #030405;
-  color: white;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-}
-
-#screen {
-  width: 100vw;
-  height: 100dvh;
-  max-width: 480px;
-  margin: auto;
-  position: relative;
-  overflow: hidden;
-  background: #08090d;
-}
-
-#productVideo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity .45s ease;
-}
-
-#screen.show-video #productVideo {
-  opacity: .88;
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0,0,0,.78),
-    transparent 35%,
-    rgba(0,0,0,.15) 55%,
-    rgba(0,0,0,.88)
-  );
-}
-
-.grid {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(#ff344b12 1px, transparent 1px),
-    linear-gradient(90deg,#ff344b12 1px, transparent 1px);
-  background-size: 35px 35px;
-  opacity: .5;
-}
-
-.frame {
-  position: absolute;
-  inset: 22px;
-  border: 1px solid #ff344b66;
-  pointer-events: none;
-}
-
-.scan {
-  position: absolute;
-  top: -5px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: #ff344b;
-  box-shadow: 0 0 18px #ff344b;
-  animation: scan 4s linear infinite;
-  pointer-events: none;
-}
-
-/* HOLOGRAM DIGITAL EFFECT */
-#screen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 3px,
-      rgba(255, 40, 80, 0.10) 4px
-    );
-  animation: hologramFlicker 0.15s infinite;
-}
-
-@keyframes hologramFlicker {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 0.75; }
-}
-  
-@keyframes scan {
-  to { top: 100%; }
-}
-
-.header {
-  position: absolute;
-  top: 7%;
-  width: 100%;
-  text-align: center;
-  font-size: 13px;
-  letter-spacing: 6px;
-  color: #ff6675;
-  font-weight: bold;
-}
-
-.content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 30px;
-  transition: opacity .4s, transform .4s;
-}
-
-.content.hidden {
-  opacity: 0;
-  transform: scale(1.06);
-}
-
-.small {
-  color: #ff5368;
-  font-size: 11px;
-  letter-spacing: 5px;
-  margin-bottom: 20px;
-}
-
-h1 {
-  font-size: clamp(34px, 10vw, 48px);
-  line-height: 1.1;
-  letter-spacing: 2px;
-}
-
-h1 span, h2 span {
-  color: #ff4058;
-}
-
-h2 {
-  font-size: clamp(29px, 8vw, 40px);
-  line-height: 1.15;
-  text-shadow: 0 0 20px #000;
-}
-
-.description {
-  margin-top: 18px;
-  font-size: 12px;
-  letter-spacing: 3px;
-  color: #ddd;
-}
-
-.line {
-  width: 150px;
-  height: 3px;
-  margin-top: 25px;
-  background: #ff344b;
-  box-shadow: 0 0 15px #ff344b;
-}
-
-.product-info {
-  position: absolute;
-  bottom: 17%;
-  left: 9%;
-  right: 9%;
-  border-left: 3px solid #ff344b;
-  padding: 12px 16px;
-  background: rgba(0,0,0,.72);
-  backdrop-filter: blur(8px);
-  transition: opacity .3s, transform .3s;
-}
-
-.product-info.hidden {
-  opacity: 0;
-  transform: translateX(-20px);
-}
-
-.product-info .number {
-  color: #ff5368;
-  font-size: 10px;
-  letter-spacing: 4px;
-  margin-bottom: 9px;
-}
-
-.product-info h2 {
-  font-size: 28px;
-}
-
-.product-info p {
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: #ddd;
-  margin-top: 8px;
-}
-
-.footer {
-  position: absolute;
-  bottom: 5%;
-  width: 100%;
-  text-align: center;
-  color: #aaa;
-  font-size: 11px;
-  letter-spacing: 4px;
-}
-
-.progress {
-  position: absolute;
-  bottom: 11%;
-  left: 10%;
-  width: 80%;
-  height: 2px;
-  background: #ffffff30;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #ff344b;
-  box-shadow: 0 0 10px red;
-}
-
-.replay {
-  position: absolute;
-  z-index: 10;
-  bottom: 14%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 13px 22px;
-  border: 1px solid #ff4058;
-  color: white;
-  background: #19080c;
-  letter-spacing: 2px;
-  font-size: 11px;
-  display: none;
-  border-radius: 3px;
-}
-
-.replay.visible {
-  display: block;
-}
-
-/* HOLOGRAM SCANNER PRAYOGO */
-
-.holo {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .5s;
-  overflow: hidden;
-}
-
-#screen.show-video .holo {
-  opacity: 1;
-}
-
-.holo-ring {
-  position: absolute;
-  width: 190px;
-  height: 190px;
-  border: 1px solid #ff405866;
-  border-radius: 50%;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  box-shadow: 0 0 18px #ff304522,
-              inset 0 0 18px #ff304522;
-  animation: holoRotate 12s linear infinite;
-}
-
-.holo-ring::before,
-.holo-ring::after {
-  content: "";
-  position: absolute;
-  inset: 13px;
-  border: 1px dashed #ff536888;
-  border-radius: 50%;
-}
-
-.holo-ring::after {
-  inset: 35px;
-  border-style: solid;
-  border-color: #ff536855;
-}
-
-@keyframes holoRotate {
-  to {
-    transform: translate(-50%,-50%) rotate(360deg);
-  }
-}
-
-.holo-beam {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: #ff4058;
-  box-shadow: 0 0 12px 3px #ff304566;
-  animation: holoBeam 3s linear infinite;
-}
-
-@keyframes holoBeam {
-  from { top: 20%; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  to { top: 80%; opacity: 0; }
-}
-
-.holo-corner {
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  border-color: #ff526f;
-  border-style: solid;
-  opacity: .9;
-}
-
-.holo-tl {
-  top: 25%;
-  left: 8%;
-  border-width: 2px 0 0 2px;
-}
-
-.holo-tr {
-  top: 25%;
-  right: 8%;
-  border-width: 2px 2px 0 0;
-}
-
-.holo-bl {
-  bottom: 27%;
-  left: 8%;
-  border-width: 0 0 2px 2px;
-}
-
-.holo-br {
-  bottom: 27%;
-  right: 8%;
-  border-width: 0 2px 2px 0;
-}
-
-.holo-label {
-  position: absolute;
-  top: 28%;
-  right: 9%;
-  color: #ff8190;
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 8px red;
-}
-
-.holo-dot {
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #ff526f;
-  box-shadow: 0 0 15px 5px #ff304566;
-  animation: holoPulse 1.2s infinite alternate;
-}
-
-@keyframes holoPulse {
-  to {
-    opacity: .3;
-    transform: scale(1.8);
-  }
-    }
-  
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#ff3656;--pink:#ff8c9e;--cream:#fff0e9}
+html,body{width:100%;height:100%;background:#10070b;color:white;font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+#stage{position:relative;width:min(100vw,56.25vh);height:100dvh;max-height:177.78vw;margin:auto;overflow:hidden;background:radial-gradient(ellipse at 50% 38%,#64202b 0%,#2a0d16 42%,#10070b 78%);isolation:isolate}
+#stage:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 49px,#ffffff08 50px),repeating-linear-gradient(90deg,transparent 0 49px,#ffffff08 50px);transform:perspective(500px) rotateX(8deg) scale(1.2);opacity:.55;z-index:-1}
+.glow{position:absolute;width:75%;height:42%;left:12%;top:25%;background:#ff254522;filter:blur(55px);border-radius:50%;z-index:-1}
+.topline{position:absolute;top:5.2%;left:7%;right:7%;display:flex;justify-content:space-between;align-items:center;font-size:clamp(8px,2.2vw,11px);letter-spacing:.28em;color:#ff9aaa;text-transform:uppercase}
+.brand{font-weight:700;color:#ffd6d8}
+.status{border:1px solid #ff647866;padding:5px 8px;border-radius:3px;background:#260b13aa}
+.headline{position:absolute;top:14%;left:7%;right:7%;text-align:center;z-index:5}
+.eyebrow{font-size:clamp(9px,2.5vw,12px);letter-spacing:.32em;color:#ff9aaa;margin-bottom:10px}
+h1{font-size:clamp(29px,8.5vw,43px);line-height:.98;letter-spacing:-.04em;text-transform:uppercase;text-shadow:0 0 22px #ff355866}
+h1 span{color:var(--red)}
+.subhead{font-size:clamp(9px,2.5vw,12px);letter-spacing:.22em;color:#f6cbd0;margin-top:12px}
+.card{position:absolute;width:42%;height:23%;border:1px solid #ff718866;border-radius:8px;background:linear-gradient(145deg,#40131dcc,#160910ee);box-shadow:0 12px 35px #0009,0 0 22px #ff315522;overflow:hidden;z-index:2;backdrop-filter:blur(7px);animation:float 5s ease-in-out infinite}
+.card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#ff738022,transparent 55%)}
+.card .tag{position:absolute;top:10px;left:10px;font-size:8px;letter-spacing:.2em;color:#ff9baa}
+.card .name{position:absolute;left:10px;right:8px;bottom:13px;font-size:clamp(12px,3.5vw,17px);font-weight:800;text-transform:uppercase}
+.card .mini{position:absolute;left:10px;bottom:4px;font-size:7px;letter-spacing:.18em;color:#ffc2c9}
+.card.one{left:5%;top:35%;transform:rotate(-8deg);animation-delay:-1s}
+.card.two{right:5%;top:33%;transform:rotate(8deg);animation-delay:-2.4s}
+.card.three{left:9%;top:57%;transform:rotate(5deg);animation-delay:-3.2s}
+.card.four{right:8%;top:56%;transform:rotate(-6deg);animation-delay:-.6s}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -11px}}
+.card .stripe{position:absolute;left:0;top:0;width:4px;height:100%;background:var(--red);box-shadow:0 0 12px var(--red)}
+.center-panel{position:absolute;left:16%;right:16%;top:39%;height:25%;z-index:4;border:1px solid #ff6a7d99;border-radius:8px;background:linear-gradient(150deg,#260b13ed,#11070cf2);box-shadow:0 0 35px #ff244433;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px;opacity:0;transform:scale(.8) translateY(20px);transition:.45s}
+.center-panel.show{opacity:1;transform:scale(1) translateY(0)}
+.center-panel .index{font-size:9px;letter-spacing:.3em;color:#ff9baa;margin-bottom:9px}
+.center-panel h2{font-size:clamp(24px,7vw,36px);text-transform:uppercase;line-height:1}
+.center-panel h2 span{color:var(--red)}
+.center-panel p{font-size:9px;letter-spacing:.22em;color:#f4cbd0;margin-top:10px}
+.scanline{position:absolute;left:0;right:0;top:0;height:2px;background:#ff4763;box-shadow:0 0 18px #ff3656;z-index:8;animation:scan 4s linear infinite;opacity:.8}
+@keyframes scan{to{top:100%}}
+.frame{position:absolute;inset:3.5%;border:1px solid #ff5b6b55;pointer-events:none;z-index:7}
+.corner{position:absolute;width:20px;height:20px;border-color:#ff657a;border-style:solid;z-index:8}
+.c1{left:3.5%;top:3.5%;border-width:2px 0 0 2px}.c2{right:3.5%;top:3.5%;border-width:2px 2px 0 0}.c3{left:3.5%;bottom:3.5%;border-width:0 0 2px 2px}.c4{right:3.5%;bottom:3.5%;border-width:0 2px 2px 0}
+.bottom-ui{position:absolute;left:7%;right:7%;bottom:16%;z-index:6;display:flex;align-items:center;justify-content:space-between;color:#ffb5bf;font-size:8px;letter-spacing:.2em}
+.meter{height:3px;background:#ffffff30;position:absolute;left:7%;right:7%;bottom:13%;z-index:6}
+.meter-fill{height:100%;width:0;background:var(--red);box-shadow:0 0 12px var(--red);transition:width .1s linear}
+.timer{position:absolute;bottom:8%;left:0;right:0;text-align:center;font-size:10px;letter-spacing:.35em;color:#f4cbd0;z-index:6}
+.mascot{position:absolute;bottom:1.2%;left:50%;transform:translateX(-50%);width:min(39%,190px);height:17%;z-index:9;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;animation:bob 2.5s ease-in-out infinite}
+.mascot img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 0 16px #ff526655)}
+@keyframes bob{50%{translate:0 -5px}}
+.video-layer{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity .35s;background:#13070b}
+#productVideo{width:100%;height:100%;object-fit:cover;filter:brightness(.62) saturate(.85)}
+.video-layer.active{opacity:.72}
+#replay{position:absolute;left:50%;top:73%;transform:translate(-50%,20px);z-index:12;border:1px solid #ff667a;background:#250a12;color:white;padding:12px 20px;letter-spacing:.2em;font-size:10px;display:none}
+#replay.show{display:block;animation:rise .4s forwards}
+@keyframes rise{to{transform:translate(-50%,0)}}
+#scene-label{position:absolute;top:28%;left:0;right:0;text-align:center;z-index:6;font-size:9px;letter-spacing:.3em;color:#ffb0bb;opacity:0}
+#scene-label.show{opacity:1}
+@media(min-width:600px){#stage{height:100vh}}
 </style>
 </head>
-
 <body>
+<div id="stage">
+  <div class="glow"></div>
+  <div class="topline"><span class="brand">PRAYOGO / FRESH BEEF</span><span class="status">LIVE PRODUCT SCAN</span></div>
+  <div class="headline" id="headline"><div class="eyebrow">PILIHAN DAGING BERKUALITAS</div><h1>MAU MASAK<br><span>DAGING APA?</span></h1><div class="subhead">TEMUKAN POTONGAN FAVORITMU</div></div>
 
-<div id="screen">
+  <div class="card one"><i class="stripe"></i><div class="tag">01 / PREMIUM CUT</div><div class="name">URAT SAPI</div><div class="mini">FRESH BEEF COLLECTION</div></div>
+  <div class="card two"><i class="stripe"></i><div class="tag">02 / SELECTED CUT</div><div class="name">IGA SAPI</div><div class="mini">PRAYOGO QUALITY</div></div>
+  <div class="card three"><i class="stripe"></i><div class="tag">03 / DAILY SELECTION</div><div class="name">HAS DALAM</div><div class="mini">FRESH BEEF COLLECTION</div></div>
+  <div class="card four"><i class="stripe"></i><div class="tag">04 / SPECIAL CUT</div><div class="name">TULANG SUMSUM</div><div class="mini">PRAYOGO QUALITY</div></div>
 
-  <video id="productVideo"
-    muted
-    playsinline
-    preload="auto">
-  </video>
-
-  <div class="overlay"></div>
-  <div class="grid"></div>
-  <div class="frame"></div>
-  <div class="scan"></div>
-  
-
-<!-- HOLOGRAM -->
-  <div class="holo">
-<div class="holo-ring"></div>
-<div class="holo-beam"></div>
-<div class="holo-corner holo-tl"></div>
-<div class="holo-corner holo-tr"></div>
-<div class="holo-corner holo-bl"></div>
-<div class="holo-corner holo-br"></div>
-<div class="holo-label">PRAYOGO // MEAT SCAN</div>
-<div class="holo-dot"></div>
-<div class="holo-dot"></div>
-   </div> 
-  <div class="header">PRAYOGO DIGITAL MEAT</div>
-
-  <div class="content" id="intro">
-    <div>
-      <div class="small">SYSTEM INITIALIZING</div>
-      <h1>THE ART OF<br><span>QUALITY MEAT</span></h1>
-      <div class="description">PREMIUM FRESH BEEF</div>
-      <div class="line"></div>
-    </div>
-  </div>
-
-  <div class="product-info hidden" id="info">
-    <div class="number" id="number">01 / PRODUCT SCAN</div>
-    <h2 id="name">URAT <span>SAPI</span></h2>
-    <p id="desc">FRESH BEEF COLLECTION</p>
-  </div>
-
-  <div class="content hidden" id="outro">
-    <div>
-      <div class="small">YOUR MEAT YOUR CHOICE</div>
-      <h1>PRAYOGO<br><span>FRESH BEEF</span></h1>
-      <div class="description">PILIHAN DAGING UNTUK MASAKANMU</div>
-      <div class="line"></div>
-    </div>
-  </div>
-
-  <div class="progress">
-    <div class="progress-bar" id="bar"></div>
-  </div>
-
-  <div class="footer" id="timer">00:00 / 00:30</div>
-
-  <button class="replay" id="replay">PUTAR ULANG</button>
-
+  <div class="video-layer" id="videoLayer"><video id="productVideo" muted playsinline preload="auto"></video></div>
+  <div class="center-panel" id="panel"><div class="index" id="indexText">01 / PRODUCT SCAN</div><h2 id="productName">URAT <span>SAPI</span></h2><p id="productDesc">FRESH BEEF COLLECTION</p></div>
+  <div id="scene-label">SCANNING FRESH BEEF COLLECTION</div>
+  <div class="scanline"></div>
+  <div class="frame"></div><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+  <div class="bottom-ui"><span>PRAYOGO // QUALITY MEAT</span><span id="phase">SYSTEM READY</span></div>
+  <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
+  <div class="timer" id="timer">00:00 / 00:30</div>
+  <div class="mascot"><img src="maskot-prayogo.png" alt="Maskot robot Prayogo membawa daging segar"></div>
+  <button id="replay" onclick="startShow()">PUTAR ULANG</button>
 </div>
-
 <script>
-const scenes = [
-  {
-    file: "01_URAT_SAPI.mp4",
-    name: "URAT SAPI",
-    desc: "FRESH BEEF COLLECTION"
-  },
-  {
-    file: "02_TULANG_SUMSUM.mp4",
-    name: "TULANG SUMSUM",
-    desc: "BEEF SELECTION"
-  },
-  {
-    file: "03_IGA_SAPI.mp4",
-    name: "IGA SAPI",
-    desc: "FRESH BEEF COLLECTION"
-  },
-  {
-    file: "04_HAS_DALAM.mp4",
-    name: "HAS DALAM",
-    desc: "BEEF SELECTION"
-  },
-  {
-    file: "05_PIPI_SAPI.mp4",
-    name: "PIPI SAPI",
-    desc: "FRESH BEEF COLLECTION"
-  },
-  {
-    file: "06_LIDAH_SAPI.mp4",
-    name: "LIDAH SAPI",
-    desc: "BEEF SELECTION"
-  },
-  {
-    file: "07_SANDUNG_LAMUR.mp4",
-    name: "SANDUNG LAMUR",
-    desc: "FRESH BEEF COLLECTION"
-  },
-  {
-    file: "08_TETELAN.mp4",
-    name: "TETELAN",
-    desc: "BEEF SELECTION"
-  }
+const scenes=[
+ {file:"01_URAT_SAPI.mp4",name:"URAT SAPI",desc:"FRESH BEEF COLLECTION"},
+ {file:"02_TULANG_SUMSUM.mp4",name:"TULANG SUMSUM",desc:"PILIHAN DAGING PRAYOGO"},
+ {file:"03_IGA_SAPI.mp4",name:"IGA SAPI",desc:"FRESH BEEF COLLECTION"},
+ {file:"04_HAS_DALAM.mp4",name:"HAS DALAM",desc:"POTONGAN PILIHAN"},
+ {file:"05_PIPI_SAPI.mp4",name:"PIPI SAPI",desc:"PILIHAN DAGING PRAYOGO"},
+ {file:"06_LIDAH_SAPI.mp4",name:"LIDAH SAPI",desc:"FRESH BEEF COLLECTION"},
+ {file:"07_SANDUNG_LAMUR.mp4",name:"SANDUNG LAMUR",desc:"POTONGAN PILIHAN"},
+ {file:"08_TETELAN.mp4",name:"TETELAN",desc:"PILIHAN DAGING PRAYOGO"}
 ];
-
-const screen = document.getElementById("screen");
-const video = document.getElementById("productVideo");
-const intro = document.getElementById("intro");
-const outro = document.getElementById("outro");
-const info = document.getElementById("info");
-const timer = document.getElementById("timer");
-const bar = document.getElementById("bar");
-const replay = document.getElementById("replay");
-
-let started = false;
-let startTime = 0;
-let timerFrame;
-
-function showIntro() {
-  screen.classList.remove("show-video");
-  intro.classList.remove("hidden");
-  outro.classList.add("hidden");
-  info.classList.add("hidden");
+const video=document.getElementById("productVideo"), layer=document.getElementById("videoLayer");
+const panel=document.getElementById("panel"), headline=document.getElementById("headline");
+const replay=document.getElementById("replay"), timer=document.getElementById("timer");
+const meter=document.getElementById("meterFill"), phase=document.getElementById("phase");
+const indexText=document.getElementById("indexText"), productName=document.getElementById("productName"), productDesc=document.getElementById("productDesc");
+const sceneLabel=document.getElementById("scene-label");
+let startAt=0, timerId=null, step=-1;
+function fmt(s){return "00:"+String(Math.floor(s)).padStart(2,"0")+" / 00:30"}
+function showProduct(i){
+ const s=scenes[i]; step=i; headline.style.opacity=".15"; headline.style.transform="scale(.92)";
+ layer.classList.add("active"); panel.classList.add("show"); sceneLabel.classList.add("show");
+ indexText.textContent=String(i+1).padStart(2,"0")+" / PRODUCT SCAN";
+ const parts=s.name.split(" "); productName.innerHTML=parts.length>1?parts.slice(0,-1).join(" ")+' <span>'+parts.at(-1)+'</span>':'<span>'+s.name+'</span>';
+ productDesc.textContent=s.desc; phase.textContent="SCANNING "+String(i+1).padStart(2,"0");
+ if(video.getAttribute("src")!==s.file){video.src=s.file;video.load();}
+ video.currentTime=0; video.play().catch(()=>{});
 }
-
-function showProduct(index) {
-  const item = scenes[index];
-
-  intro.classList.add("hidden");
-  outro.classList.add("hidden");
-  info.classList.remove("hidden");
-  screen.classList.add("show-video");
-
-  document.getElementById("number").textContent =
-    String(index + 1).padStart(2,"0") + " / PRODUCT SCAN";
-
-  const parts = item.name.split(" ");
-  const first = parts.slice(0,-1).join(" ");
-  const last = parts.slice(-1).join("");
-
-  document.getElementById("name").innerHTML =
-    (first ? first + " " : "") + "<span>" + last + "</span>";
-
-  document.getElementById("desc").textContent = item.desc;
-
-  video.pause();
-  video.src = encodeURI(item.file);
-  video.load();
-
-  video.oncanplay = () => {
-    if (started) video.play().catch(() => {});
-  };
+function finish(){
+ clearInterval(timerId);video.pause();panel.classList.remove("show");layer.classList.remove("active");
+ headline.style.opacity="1";headline.style.transform="scale(1)";
+ sceneLabel.classList.remove("show");phase.textContent="SCAN COMPLETE";replay.classList.add("show");
+ timer.textContent="00:30 / 00:30";meter.style.width="100%";
 }
-
-function showOutro() {
-  screen.classList.remove("show-video");
-  intro.classList.add("hidden");
+function tick(){
+ const elapsed=(Date.now()-startAt)/1000;
+ if(elapsed>=30){finish();return;}
+ timer.textContent=fmt(elapsed);meter.style.width=(elapsed/30*100)+"%";
+ if(elapsed<2){
+   step=-1;headline.style.opacity="1";panel.classList.remove("show");layer.classList.remove("active");
+   phase.textContent="SYSTEM INITIALIZING";
+ }else if(elapsed<26){
+   const i=Math.min(7,Math.floor((elapsed-2)/3));
+   if(i!==step)showProduct(i);
+ }else{
+   video.pause();layer.classList.remove("active");panel.classList.remove("show");
+   headline.style.opacity="1";headline.style.transform="scale(1)";
+   headline.querySelector(".eyebrow").textContent="TERIMA KASIH TELAH MEMILIH";
+   headline.querySelector("h1").innerHTML="PRAYOGO<br><span>FRESH BEEF</span>";
+   headline.querySelector(".subhead").textContent="PILIHAN DAGING UNTUK KELUARGA";
+   sceneLabel.classList.remove("show");phase.textContent="QUALITY YOU CAN TRUST";
+ }
+}
+function startShow(){
+ replay.classList.remove("show");replay.style.display="none";
+ headline.querySelector(".eyebrow").textContent="PILIHAN DAGING BERKUALITAS";
+ headline.querySelector("h1").innerHTML="MAU MASAK<br><span>DAGING APA?</span>";
+ headline.querySelector(".subhead").textContent="TEMUKAN POTONGAN FAVORITMU";
+ step=-1;startAt=Date.now();clearInterval(timerId);tick();timerId=setInterval(tick,100);
+}
+replay.style.display="none";
+startShow();
+</script>
+</body>
+</html>ssList.add("hidden");
   info.classList.add("hidden");
   outro.classList.remove("hidden");
   video.pause();
